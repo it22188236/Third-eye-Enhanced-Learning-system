@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">text-to-speech-3</string>
+    <string name="chat_btn">Start Chat</string>
+    <string name="GoToVoice">Goto Voice</string>
+    <string name="instruction">Instruction</string>
+    <string name="openai">Open \nGemini Ai</string>
+</resources>
