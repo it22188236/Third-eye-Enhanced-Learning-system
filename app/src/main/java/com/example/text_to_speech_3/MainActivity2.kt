@@ -6,10 +6,12 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.ContactsContract.CommonDataKinds.Im
 import android.provider.Settings
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -25,6 +27,8 @@ class MainActivity2 : AppCompatActivity() {
 
     lateinit var mic:ImageView
     lateinit var viewOutPut:TextView
+    lateinit var instruction:ImageView
+    lateinit var link_gemini:Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,12 +42,23 @@ class MainActivity2 : AppCompatActivity() {
 
         mic = findViewById(R.id.micImage)
         viewOutPut = findViewById(R.id.textViewOutput)
+        instruction = findViewById(R.id.instruction_btn)
+        link_gemini = findViewById(R.id.link_gemini)
 
         mic.setOnClickListener {
 //            speak()
             checkAudioPermission()
             mic.setColorFilter(ContextCompat.getColor(this,R.color.black))
             startSpeechToText()
+        }
+
+        instruction.setOnClickListener {
+            instruction()
+        }
+
+        link_gemini.setOnClickListener {
+            val intent =Intent(this@MainActivity2,MainActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -77,6 +92,10 @@ class MainActivity2 : AppCompatActivity() {
 //            viewOutPut.setText(data!!.getStringArrayExtra(RecognizerIntent.EXTRA_RESULTS)!![0])
 //        }
 //    }
+    private fun instruction(){
+        val intent = Intent(this@MainActivity2,InstructionActivity::class.java)
+        startActivity(intent)
+    }
 
     private fun startSpeechToText() {
         val speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this)

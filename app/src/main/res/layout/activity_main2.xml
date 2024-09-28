@@ -13,49 +13,27 @@
 
     <ImageView
         android:id="@+id/micImage"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginStart="127dp"
+        android:layout_marginTop="34dp"
         android:layout_marginEnd="127dp"
-        android:layout_marginBottom="85dp"
+        android:layout_marginBottom="22dp"
         app:layout_constraintBottom_toTopOf="@+id/textViewOutput"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/function3"
         app:srcCompat="@drawable/baseline_mic_24" />
-
-    <TextView
-        android:id="@+id/textViewUpper"
-        android:layout_width="232dp"
-        android:layout_height="31dp"
-        android:layout_marginStart="89dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="89dp"
-        android:layout_marginBottom="82dp"
-        android:background="#5C9EFF"
-        android:shadowRadius="15"
-        android:text="Speech-To-Text"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="#000000"
-        android:textDirection="firstStrong"
-        android:textSize="20sp"
-        app:circularflow_radiusInDP="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/micImage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.485"
-        app:tint="@color/mic_disable" />
 
     <TextView
         android:id="@+id/textViewOutput"
         android:layout_width="336dp"
-        android:layout_height="150dp"
+        android:layout_height="50dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="188dp"
-        android:background="#5C9EFF"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/textboxdesign"
         android:hint="Output"
         android:outlineProvider="paddedBounds"
         android:shadowRadius="20"
@@ -63,8 +41,83 @@
         android:textSize="20sp"
         app:circularflow_defaultRadius="5dp"
         app:circularflow_radiusInDP="5dp"
+        android:paddingLeft="12dp"
+        android:paddingTop="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/link_gemini"
+        android:layout_width="165dp"
+        android:layout_height="158dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/buttondesign"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/openai"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/instruction_btn" />
+
+    <Button
+        android:id="@+id/function2"
+        android:layout_width="165dp"
+        android:layout_height="158dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/buttondesign"
+        android:fontFamily="@font/poppins_bold"
+        android:text="function 2"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/instruction_btn" />
+
+    <Button
+        android:id="@+id/function3"
+        android:layout_width="165dp"
+        android:layout_height="158dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="45dp"
+        android:background="@drawable/buttondesign"
+        android:fontFamily="@font/poppins_bold"
+        android:text="function3"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/link_gemini" />
+
+    <Button
+        android:id="@+id/function4"
+        android:layout_width="165dp"
+        android:layout_height="158dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/buttondesign"
+        android:fontFamily="@font/poppins_bold"
+        android:text="function4"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/function2" />
+
+    <ImageView
+        android:id="@+id/instruction_btn"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="175dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="176dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

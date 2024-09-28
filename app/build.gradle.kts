@@ -1,4 +1,3 @@
-import com.android.build.gradle.internal.dsl.initExtensions
 
 plugins {
     alias(libs.plugins.android.application)
@@ -40,9 +39,6 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    viewBinding {
-        enable = true
-    }
 }
 
 dependencies {
@@ -59,4 +55,5 @@ dependencies {
     implementation("com.google.cloud:google-cloud-speech:2.5.0")
     implementation("com.google.protobuf:protobuf-java:3.15.6")
     implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
+    implementation(kotlin("script-runtime"))
 }
