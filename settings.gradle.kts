@@ -1,12 +1,6 @@
 pluginManagement {
     repositories {
-        google {
-            content {
-                includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("com\\.google.*")
-                includeGroupByRegex("androidx.*")
-            }
-        }
+        google()
         mavenCentral()
         gradlePluginPortal()
     }
@@ -19,6 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "text-to-speech-3"
+rootProject.name = "yolo_deploy"
 include(":app")
- 
