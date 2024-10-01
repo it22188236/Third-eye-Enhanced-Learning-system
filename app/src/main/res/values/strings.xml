@@ -4,4 +4,7 @@
     <string name="GoToVoice">Goto Voice</string>
     <string name="instruction">Instruction</string>
     <string name="openai">Open \nGemini Ai</string>
+    <string name="instruction_headling">Instructions</string>
+    <string name="History">History</string>
+    <string name="no_record">No Record Found</string>
 </resources>

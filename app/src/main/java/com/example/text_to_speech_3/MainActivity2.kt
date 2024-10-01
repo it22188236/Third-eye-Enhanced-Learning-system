@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Im
 import android.provider.Settings
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
@@ -29,6 +28,7 @@ class MainActivity2 : AppCompatActivity() {
     lateinit var viewOutPut:TextView
     lateinit var instruction:ImageView
     lateinit var link_gemini:Button
+    lateinit var link_scanner:ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +44,7 @@ class MainActivity2 : AppCompatActivity() {
         viewOutPut = findViewById(R.id.textViewOutput)
         instruction = findViewById(R.id.instruction_btn)
         link_gemini = findViewById(R.id.link_gemini)
+        link_scanner = findViewById(R.id.scannerbtn)
 
         mic.setOnClickListener {
 //            speak()
@@ -57,7 +58,12 @@ class MainActivity2 : AppCompatActivity() {
         }
 
         link_gemini.setOnClickListener {
-            val intent =Intent(this@MainActivity2,MainActivity::class.java)
+            val intent =Intent(this@MainActivity2,ChatActivity::class.java)
+            startActivity(intent)
+        }
+
+        link_scanner.setOnClickListener {
+            val intent = Intent(this@MainActivity2,ScannerActivity::class.java)
             startActivity(intent)
         }
     }
@@ -134,7 +140,15 @@ class MainActivity2 : AppCompatActivity() {
                 if (result != null) {
                     viewOutPut.text = result[0]
 
-                    if (result[0].toString()=="open Gemini" || result[0].toString()=="Open Gemini" || result[0].toString()=="Open gemini" || result[0].toString()=="open gemini" || result[0].toString()=="OPEN GEMINI"){
+//                    if (result[0].toString()=="open Gemini" || result[0].toString()=="Open Gemini" || result[0].toString()=="Open gemini" || result[0].toString()=="open gemini" || result[0].toString()=="OPEN GEMINI"){
+                    if (result[0].toString().lowercase()=="open gemini"){
+                        val intent = Intent(this@MainActivity2,ChatActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                        Toast.makeText(this@MainActivity2,"Opening Gemini AI",Toast.LENGTH_LONG).show()
+                    }
+
+                    else if (result[0].toString().lowercase()=="open object detection"){
                         val intent = Intent(this@MainActivity2,MainActivity::class.java)
                         startActivity(intent)
                         finish()

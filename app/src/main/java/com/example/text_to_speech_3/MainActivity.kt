@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.text_to_speech_3.model.db.DBHelper
 import com.google.ai.client.generativeai.Chat
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
@@ -25,17 +26,22 @@ import kotlinx.coroutines.launch
 import java.util.Locale
 import com.example.text_to_speech_3.MainActivity2 as mainActivity2
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),TextToSpeech.OnInitListener {
 
     lateinit var inputText:TextView
     lateinit var editTextOutput:EditText
     lateinit var mic:ImageView
     lateinit var chat:Chat
-    private lateinit var texttospeech:TextToSpeech
-    lateinit var resetbtn:Button
-    lateinit var stopgeneration:Button
+    private lateinit var tts:TextToSpeech
+    private lateinit var resetbtn:Button
+    private lateinit var stopgeneration:Button
     private var generateJob:Job?=null
     lateinit var editbutton:ImageView
+    private var textToRead = String
+    lateinit var historyDirection:ImageView
+    var isFirstConversation = true
+    private lateinit var dbHelper:DBHelper
+
 
     var stringBuilder: StringBuilder = java.lang.StringBuilder()
 
@@ -54,26 +60,19 @@ class MainActivity : AppCompatActivity() {
         resetbtn = findViewById(R.id.resetPrompt)
         stopgeneration = findViewById(R.id.stopGeneration)
         editbutton = findViewById(R.id.editbtn)
+        historyDirection = findViewById(R.id.historybtn)
 
-        texttospeech = TextToSpeech(this){status->
-            if (status == TextToSpeech.SUCCESS){
-                val result = texttospeech.setLanguage(Locale.getDefault())
-                if (result == TextToSpeech.LANG_MISSING_DATA|| result == TextToSpeech.LANG_NOT_SUPPORTED){
-                    Toast.makeText(this,"Language is not supported",Toast.LENGTH_LONG).show()
-                }
-            }
-        }
+        tts  = TextToSpeech(this@MainActivity, this@MainActivity)
 
         mic.setOnClickListener{
             startSpeechToText()
-            mic.setColorFilter(ContextCompat.getColor(this,R.color.black))
-
         }
 
         resetbtn.setOnClickListener{
             editTextOutput.text.clear()
             chat.history.clear()
-            inputText.setText("")
+            inputText.text = ""
+            tts.stop()
         }
 
         stopgeneration.setOnClickListener{
@@ -85,10 +84,11 @@ class MainActivity : AppCompatActivity() {
             startSpeechToText()
             inputText.text=""
         }
-//        if (editbutton.isActivated){
-//            editfunction()
-//        }
 
+        historyDirection.setOnClickListener {
+            val intent = Intent(this@MainActivity,HistoryActivity::class.java)
+            startActivity(intent)
+        }
 
         val generativeModel = GenerativeModel(
             // Specify a Gemini model appropriate for your use case
@@ -108,7 +108,9 @@ class MainActivity : AppCompatActivity() {
         stringBuilder.append("Hi!! I'm Gemini, What would you like to know?\n\n")
 
         editTextOutput.setText(stringBuilder.toString())
+//        editTextOutput.setText(textToRead.toString())
     }
+
 
     fun buttonSendChat(view: android.view.View) {
 //        stringBuilder.append(inputText.text.toString())
@@ -139,11 +141,13 @@ class MainActivity : AppCompatActivity() {
 
         speechRecognizer.setRecognitionListener(object : RecognitionListener {
             override fun onReadyForSpeech(bundle: Bundle?) {}
-            override fun onBeginningOfSpeech() {}
+            override fun onBeginningOfSpeech() {
+                mic.setColorFilter(ContextCompat.getColor(applicationContext, R.color.mic_disable))
+            }
             override fun onRmsChanged(v: Float) {}
             override fun onBufferReceived(bytes: ByteArray?) {}
             override fun onEndOfSpeech() {
-                mic.setColorFilter(ContextCompat.getColor(applicationContext, R.color.mic_disable)) // #FF6D6A6A
+                mic.setColorFilter(ContextCompat.getColor(applicationContext, R.color.black))
             }
 
             override fun onError(errorCode: Int) {
@@ -164,45 +168,33 @@ class MainActivity : AppCompatActivity() {
                     inputText.text = result[0]
 
                     stringBuilder.append("User : ",inputText.text.toString(),"\n")
+                    speechRecognizer.destroy()
+                    speakText("you says "+inputText.text.toString())
+
                     MainScope().launch {
-                        val result = chat.sendMessage(inputText.text.toString())
-                        stringBuilder.append("AI Assistant : ",result.text,"\n\n")
-
+                        val results = chat.sendMessage(inputText.text.toString())
+                        stringBuilder.append("AI Assistant : ",results.text,"\n\n")
+                        inputText.text = ""
                         editTextOutput.setText(stringBuilder.toString())
-                        inputText.setText(inputText.text.toString())
 
-                        if (result.text.toString()!=null){
-                            if(editbutton.callOnClick()!=true){
-                                if (editTextOutput.text.toString().trim().isNotEmpty()){
-                                    texttospeech.speak(editTextOutput.text.toString().trim(),TextToSpeech.QUEUE_FLUSH,
-                                        null,
-                                        null)
-                                }
-                                else{
-                                    Toast.makeText(this@MainActivity,"Required",Toast.LENGTH_LONG).show()
-                                }
-                            }
+//                        inputText.text = inputText.text.toString()
+
+
+//                        if(!editbutton.callOnClick()){
 //                            if (editTextOutput.text.toString().trim().isNotEmpty()){
-//                                texttospeech.speak(editTextOutput.text.toString().trim(),TextToSpeech.QUEUE_FLUSH,
+//                                tts.speak(editTextOutput.text.toString().trim(),TextToSpeech.QUEUE_FLUSH,
 //                                    null,
 //                                    null)
 //                            }
 //                            else{
 //                                Toast.makeText(this@MainActivity,"Required",Toast.LENGTH_LONG).show()
 //                            }
-                            }
+//                        }
 
-//                        if (editTextOutput.text.toString().trim().isNotEmpty()){
-//                            texttospeech.speak(editTextOutput.text.toString().trim(),TextToSpeech.QUEUE_FLUSH,
-//                                null,
-//                                null)
-//                        }
-//                        else{
-//                            Toast.makeText(this@MainActivity,"Required",Toast.LENGTH_LONG).show()
-//                        }
 
                     }
                 }
+
             }
             override fun onPartialResults(bundle: Bundle) {}
             override fun onEvent(i: Int, bundle: Bundle?) {}
@@ -216,17 +208,39 @@ class MainActivity : AppCompatActivity() {
         println("Generate Cancel")
     }
 
+
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            val result = tts.setLanguage(Locale.US)
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "Language Not Supported",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                speakText(textToRead.toString())
+            }
+        } else {
+            Toast.makeText(
+                this@MainActivity,
+                "Text to speech Initialization failed!",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
     override fun onDestroy() {
+        tts.stop()
+        tts.shutdown()
         super.onDestroy()
         generateJob?.cancel()
     }
 
-//    private fun editfunction(){
-//        editbutton.setOnClickListener{
-//            stopGenerating()
-//            startSpeechToText()
-//            inputText.text=""
-//        }
-//    }
+    private fun speakText(text: String) {
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
+        }
+
 
 }

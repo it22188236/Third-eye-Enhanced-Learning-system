@@ -6,14 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".MainActivity">
+    android:scrollbars="vertical"
+    android:verticalScrollbarPosition="defaultPosition"
+    app:layout_scrollFlags="scroll"
+    tools:context=".ChatActivity">
 
     <ImageView
         android:id="@+id/clickMic"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="156dp"
-        android:layout_marginTop="88dp"
         android:layout_marginEnd="156dp"
         android:layout_marginBottom="17dp"
         android:clickable="true"
@@ -21,8 +23,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputtext"
-        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/baseline_mic_24" />
 
     <ImageView
@@ -38,41 +38,21 @@
         app:srcCompat="@drawable/baseline_arrow_back_ios_new_24" />
 
     <TextView
-        android:id="@+id/inputtext"
-        android:layout_width="250dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="46dp"
-        android:layout_marginTop="63dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="28dp"
-        android:background="@drawable/textboxdesign"
-        android:clickable="false"
-        android:contextClickable="true"
-        android:hint="Speak text here..."
-        android:textColor="#000000"
-        android:paddingLeft="12dp"
-        android:paddingTop="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/stopGeneration"
-        app:layout_constraintEnd_toStartOf="@+id/editbtn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/outputtext" />
-
-    <EditText
         android:id="@+id/outputtext"
-        android:layout_width="329dp"
-        android:layout_height="300dp"
+        android:layout_width="324dp"
+        android:layout_height="451dp"
         android:layout_marginStart="41dp"
-        android:layout_marginTop="37dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="41dp"
         android:background="@drawable/textboxdesign"
-        android:editable="false"
-        android:ems="10"
         android:gravity="start|top"
         android:hint="Output"
-        android:inputType="none"
-        android:paddingTop="5dp"
+        android:keepScreenOn="true"
         android:paddingLeft="12dp"
+        android:paddingTop="5dp"
+        android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/backbtn" />
 
@@ -80,40 +60,25 @@
         android:id="@+id/stopGeneration"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="37dp"
         android:layout_marginEnd="20dp"
         android:backgroundTint="@color/Itemcolor"
         android:text="Stop Generation"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputtext" />
+        app:layout_constraintTop_toBottomOf="@+id/outputtext" />
 
     <Button
         android:id="@+id/resetPrompt"
         android:layout_width="160dp"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="37dp"
         android:backgroundTint="@color/Itemcolor"
         android:text="Clear Prompt"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputtext" />
-
-    <ImageView
-        android:id="@+id/editbtn"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="63dp"
-        android:layout_marginEnd="41dp"
-        android:layout_marginBottom="73dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toTopOf="@+id/stopGeneration"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/inputtext"
-        app:layout_constraintTop_toBottomOf="@+id/outputtext"
-        app:srcCompat="@drawable/baseline_edit_24" />
+        app:layout_constraintTop_toBottomOf="@+id/outputtext" />
 
     <ImageView
         android:id="@+id/historybtn"
@@ -124,5 +89,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_history_24" />
+
+    <TextView
+        android:id="@+id/recognizerCapture"
+        android:layout_width="233dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="23dp"
+        android:text="TextView"
+        android:background="@drawable/textboxdesign"
+        app:layout_constraintEnd_toStartOf="@+id/historybtn"
+        app:layout_constraintStart_toEndOf="@+id/backbtn"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
