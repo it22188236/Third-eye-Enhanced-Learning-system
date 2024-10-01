@@ -1,7 +1,7 @@
 THIRD EYE - Educational Mobile App for Visually Impaired Student, Help to improve their educational works.
 
 SRI LANKA INSTITUTE OF TECHNOLOGY
-Group Assignment (SPM = SOFTWARE PROJECT MANAGEMENT)
+Group Assignment
 
 Collaborators
 IT22188236 - Madhubhashana G.D.I.
