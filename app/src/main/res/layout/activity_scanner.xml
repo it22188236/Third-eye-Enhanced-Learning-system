@@ -12,24 +12,29 @@
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:orientation="horizontal">
+       android:orientation="horizontal"
+       android:layout_marginRight="8dp"
+       android:layout_marginTop="20dp"
+       android:layout_marginLeft="8dp">
 
        <com.google.android.material.button.MaterialButton
            android:id="@+id/inputImage"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
+           android:layout_width="330dp"
+           android:layout_height="70dp"
            android:layout_weight="1"
-           android:layout_marginEnd="5dp"
+           android:layout_marginEnd="0dp"
            android:text="Take Image"
+           android:textSize="16dp"
            app:icon="@drawable/baseline_camera_alt_24"/>
 
        <com.google.android.material.button.MaterialButton
            android:id="@+id/recognizeText"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
+           android:layout_width="350dp"
+           android:layout_height="70dp"
            android:layout_weight="1"
-           android:layout_marginStart="5dp"
+           android:layout_marginStart="0dp"
            android:text="Recognize Text"
+           android:textSize="16dp"
            app:icon="@drawable/baseline_document_scanner_24"/>
 
 
@@ -42,7 +47,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageTv"
@@ -50,25 +57,29 @@
                 android:layout_height="wrap_content"
                 app:strokeWidth="2dp"
                 android:src="@drawable/baseline_image_24"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:adjustViewBounds="true"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp">
 
                 <TextView
                     style="@style/TextAppearance.MaterialComponents.Headline6"
                     android:layout_width="300dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:layout_marginTop="10dp"
-                    android:text="Recognized Text : "/>
+                    android:text="Recognized Text : " />
 
                 <ImageView
                     android:id="@+id/sendAI"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:clickable="true"
                     app:srcCompat="@drawable/baseline_send_24" />
@@ -80,7 +91,9 @@
             <EditText
                 android:id="@+id/recognizedTextEdit"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
 
         </LinearLayout>
 

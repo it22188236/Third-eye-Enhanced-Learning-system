@@ -50,6 +50,8 @@
         android:keepScreenOn="true"
         android:paddingLeft="12dp"
         android:paddingTop="5dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="5dp"
         android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.4"
@@ -97,10 +99,24 @@
         android:layout_marginStart="22dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="23dp"
+        android:paddingLeft="5dp"
         android:text="TextView"
         android:background="@drawable/textboxdesign"
         app:layout_constraintEnd_toStartOf="@+id/historybtn"
         app:layout_constraintStart_toEndOf="@+id/backbtn"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/sendProcess"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="29dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="40dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stopGeneration"
+        app:srcCompat="@drawable/baseline_send_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

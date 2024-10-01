@@ -132,7 +132,6 @@ class ScannerActivity : AppCompatActivity() {
 
                     recognizedEditText.setText(recognizedText)
 
-                    sendAi(recognizedText)
                 }
                 .addOnFailureListener {
                     e->

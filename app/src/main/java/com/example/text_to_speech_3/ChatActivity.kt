@@ -8,7 +8,6 @@ import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
 import android.text.method.ScrollingMovementMethod
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -16,9 +15,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.recyclerview.widget.RecyclerView
 import com.example.text_to_speech_3.model.db.DBHelper
-import com.example.text_to_speech_3.model.historyManager.ChatHistoryAdapter
 import com.google.ai.client.generativeai.Chat
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
@@ -35,6 +32,7 @@ class ChatActivity : AppCompatActivity(),TextToSpeech.OnInitListener {
     private lateinit var navigateBack:ImageView
     private lateinit var resetFunction:Button
     private lateinit var textRecognizer:TextView
+    private lateinit var sendToAi:ImageView
 
     private lateinit var chat: Chat
     
@@ -63,7 +61,9 @@ class ChatActivity : AppCompatActivity(),TextToSpeech.OnInitListener {
         chatHistoryView = findViewById(R.id.outputtext)
         navigateBack = findViewById(R.id.backbtn)
         textRecognizer = findViewById(R.id.recognizerCapture)
+        sendToAi = findViewById(R.id.sendProcess)
         chatHistoryView.movementMethod = ScrollingMovementMethod()
+        textRecognizer.movementMethod = ScrollingMovementMethod()
         
         dbHelper = DBHelper(this@ChatActivity)
         textToSpeech = TextToSpeech(this@ChatActivity,this@ChatActivity)
@@ -87,7 +87,12 @@ class ChatActivity : AppCompatActivity(),TextToSpeech.OnInitListener {
 
         resetFunction.setOnClickListener {
             chatHistoryView.text = ""
+            textRecognizer.text = ""
             textToSpeech.stop()
+        }
+
+        sendToAi.setOnClickListener {
+            sendRequestForAI()
         }
 
         val recognizedTextFromRecognizer = intent.getStringExtra("Recognized_Text")
@@ -143,41 +148,56 @@ class ChatActivity : AppCompatActivity(),TextToSpeech.OnInitListener {
                 val result = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                 if (result != null) {
                     val userInput = result[0]
+
                     speechRecognizer.destroy()
-                    textToSpeech.speak("you says "+userInput.toString().trim(),TextToSpeech.QUEUE_FLUSH,null,null)
-
-
+                    textToSpeech.speak(
+                        "you says " + userInput.toString().trim(),
+                        TextToSpeech.QUEUE_FLUSH,
+                        null,
+                        null
+                    )
                     MainScope().launch {
                         val results = chat.sendMessage(result.toString())
                         stringBuilder.append("AI Assistant : ", results.text, "\n\n")
 //                        chatHistoryView.text = results.text.toString().trim()
                         chatHistoryView.setText(results.text.toString().trim())
-                        textToSpeech.speak("AI Response "+results.text.toString().trim(),TextToSpeech.QUEUE_FLUSH,null,null)
+                        textToSpeech.speak(
+                            "AI Response " + results.text.toString().trim(),
+                            TextToSpeech.QUEUE_FLUSH,
+                            null,
+                            null
+                        )
                         if (userInput != null) {
-                            dbHelper.insertHistory(userInput,results.text.toString(),getCurrentTimeStamp())
+                            dbHelper.insertHistory(
+                                userInput,
+                                results.text.toString(),
+                                getCurrentTimeStamp()
+                            )
                         }
 
                     }
                 }
 
-                else if (result != null && textRecognizer.text != null){
-                    textRecognizer.text = result[0]
-                    speechRecognizer.destroy()
-                    textToSpeech.speak("you says "+textRecognizer.text .toString().trim(),TextToSpeech.QUEUE_FLUSH,null,null)
 
-
-                    MainScope().launch {
-                        val results = chat.sendMessage(textRecognizer.text .toString())
-                        stringBuilder.append("AI Assistant : ", results.text, "\n\n")
-//                        chatHistoryView.text = results.text.toString().trim()
-                        chatHistoryView.setText(results.text.toString().trim())
-                        textToSpeech.speak("AI Response "+results.text.toString().trim(),TextToSpeech.QUEUE_FLUSH,null,null)
-                        if (textRecognizer.text  != null) {
-                            dbHelper.insertHistory(textRecognizer.text.toString(),results.text.toString(),getCurrentTimeStamp())
-                        }
-
-                    }
-                }
+//                val text = bundle.getStringArrayList(getIntent().toString())
+//                val textValue = textRecognizer.text.toString()
+//                if (textValue == textRecognizer.text){
+//                    speechRecognizer.destroy()
+//                    textToSpeech.speak("you says "+textRecognizer.text .toString().trim(),TextToSpeech.QUEUE_FLUSH,null,null)
+//
+//
+//                    MainScope().launch {
+//                        val results = chat.sendMessage(textRecognizer.text .toString())
+//                        stringBuilder.append("AI Assistant : ", results.text, "\n\n")
+////                        chatHistoryView.text = results.text.toString().trim()
+//                        chatHistoryView.setText(results.text.toString().trim())
+//                        textToSpeech.speak("AI Response "+results.text.toString().trim(),TextToSpeech.QUEUE_FLUSH,null,null)
+//                        if (textRecognizer.text  != null) {
+//                            dbHelper.insertHistory(textRecognizer.text.toString(),results.text.toString(),getCurrentTimeStamp())
+//                        }
+//
+//                    }
+//                }
             }
 
             override fun onPartialResults(bundle: Bundle) {}
@@ -232,6 +252,19 @@ class ChatActivity : AppCompatActivity(),TextToSpeech.OnInitListener {
             ).show()
         }
     }
+
+    private fun sendRequestForAI(){
+//        val textView:TextView = findViewById(R.id.recognizeText)
+//        val textValue = textView.text.toString()
+//            MainScope().launch {
+//                val result = chat.sendMessage(textValue)
+//                stringBuilder.append("AI Assistant : ", result.text, "\n\n")
+//                chatHistoryView.text = result.text.toString().trim()
+//                textToSpeech.speak("AI Response "+result.text.toString().trim(),TextToSpeech.QUEUE_FLUSH,null,null)
+//
+//                dbHelper.insertHistory(textValue,result.text.toString(),getCurrentTimeStamp())
+//            }
+        }
 
     override fun onDestroy() {
         super.onDestroy()

@@ -1,4 +1,5 @@
 
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -78,7 +79,7 @@ dependencies {
 
     implementation("com.google.firebase:firebase-ml-vision:24.0.3")
 
-    implementation ("androidx.sqlite:sqlite:2.1.0")
+    implementation ("androidx.sqlite:sqlite-ktx:2.1.0")
 
     implementation("androidx.fragment:fragment-ktx:1.8.3")
     implementation("androidx.activity:activity-ktx:1.9.2")
